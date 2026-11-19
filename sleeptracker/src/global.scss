@@ -55,7 +55,7 @@
 
 .section-label {
     color: var(--app-green);
-    font-size: 13px;
+    font-size: 15px;
     font-weight: 600;
     margin: 24px 16px 4px;
 }
@@ -69,18 +69,17 @@ ion-header {
 
 ion-toolbar {
     --background: var(--ion-background-color);   
-    --min-height: 140px;                          
+    --min-height: 120px;                          
     --padding-start: 0;
-    --padding-end: 0;
     --border-width: 0;
+    padding-bottom: 10px; 
 
     &::part(container) { align-items: flex-end; } 
 }
 
 
 ion-title.page-title {
-    align-items: flex-end;   
-    padding-bottom: 20px;    
+    align-items: flex-end;      
 }
 
 ion-content {
