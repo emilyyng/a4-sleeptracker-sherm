@@ -1,13 +1,34 @@
-<ion-header [translucent]="true">
+<ion-header>
   <ion-toolbar>
-    <ion-title>Overnight Sleep</ion-title>
+    <ion-title class="page-title">Overnight Sleep</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">overnight</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content>
+  <section class="timer">
+    <div class="timer-display">{{ display }}</div>
+    <ion-button class="timer-btn" fill="clear" (click)="toggleTimer()">
+      <ion-icon slot="start" [name]="timerRunning ? 'pause' : 'play'"></ion-icon>
+      {{ timerRunning ? 'Stop Timer' : 'Start Timer' }}
+    </ion-button>
+  </section>
+
+  <h2 class="section-label">Recent Logs</h2>
+  <ion-list lines="full" class="log-list">
+    @for (log of logs; track log) {
+      <ion-item>
+        <ion-label>
+          <h3>{{ log.sleepStart | date: 'MMMM d, y' }}</h3>
+          <p>{{ log.sleepStart | date: 'h:mm a' }} to {{ log.sleepEnd | date: 'h:mm a' }}</p>
+        </ion-label>
+        <span slot="end" class="duration">{{ duration(log) }}</span>
+      </ion-item>
+    }
+  </ion-list>
+
+  <ion-fab slot="fixed" vertical="bottom" horizontal="end">
+    <ion-fab-button (click)="openRecordModal()">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
 </ion-content>
