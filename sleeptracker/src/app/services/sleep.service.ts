@@ -128,4 +128,11 @@ export class SleepService {
 		if (overnight !== -1) SleepService.AllOvernightData.splice(overnight, 1);
 		await this.save();
 	}
+
+	public async updateOvernightData(data: OvernightSleepData, start: Date, end: Date) {
+		await this.ready;
+		data.sleepStart = start;
+		data.sleepEnd = end;
+		await this.save();
+	}
 }

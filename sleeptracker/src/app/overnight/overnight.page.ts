@@ -96,4 +96,16 @@ export class OvernightPage implements OnInit, OnDestroy {
     });
     await modal.present();
   }
+
+  async openEditModal(log: OvernightSleepData, slider: IonItemSliding) {
+    await slider.close();
+    const modal = await this.modalCtrl.create({
+      component: RecordSleepModalComponent,
+      componentProps: { editing: log },
+      breakpoints: [0, 1],
+      initialBreakpoint: 1,
+      handle: true,
+    });
+    await modal.present();
+}
 }
