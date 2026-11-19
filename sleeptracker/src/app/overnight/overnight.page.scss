@@ -26,7 +26,7 @@
 ion-item {
     --padding-start: 16px;
     --inner-padding-end: 16px;
-    --background: transparent;
+    // --background: transparent;
     --border-color: #e5e5e5;
 
     h3 { 
@@ -40,6 +40,7 @@ ion-item {
         margin: 2px 0 0; 
     }
 }
+
 .duration { 
     font-size: 15px; 
     font-weight: 500; 
@@ -49,4 +50,18 @@ ion-fab-button {
     --background: var(--app-purple);
     --color: #fff;
     margin: 0 12px 12px 0;
+}
+
+.edit-option {
+    --background: #e6d6f2;
+    --color: var(--app-purple);
+}
+
+.delete-option {
+    --background: #d95f5f;
+    --color: #ffffff;
+}
+
+ion-item-option ion-icon {
+    font-size: 22px;
 }

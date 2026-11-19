@@ -119,4 +119,13 @@ export class SleepService {
 		await this.storage.remove(TIMER_KEY);
 		await this.logOvernightData(new OvernightSleepData(start, new Date()));
 	}
+
+	public async deleteOvernightData(data: OvernightSleepData) {
+		await this.ready;
+		const all = SleepService.AllSleepData.indexOf(data);
+		if (all !== -1) SleepService.AllSleepData.splice(all, 1);
+		const overnight = SleepService.AllOvernightData.indexOf(data);
+		if (overnight !== -1) SleepService.AllOvernightData.splice(overnight, 1);
+		await this.save();
+	}
 }

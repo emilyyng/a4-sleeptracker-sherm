@@ -2,10 +2,12 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import {
   IonHeader, IonToolbar, IonTitle, IonContent, IonButton, IonIcon,
-  IonList, IonItem, IonLabel, IonFab, IonFabButton, ModalController,
+  IonList, IonItem, IonLabel, IonFab, IonFabButton,
+  IonItemSliding, IonItemOptions, IonItemOption,
+  ModalController, AlertController,
 } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
-import { play, pause, add } from 'ionicons/icons';
+import { play, pause, add, trashOutline, createOutline } from 'ionicons/icons';
 import { SleepService } from '../services/sleep.service';
 import { OvernightSleepData } from '../data/overnight-sleep-data';
 import { RecordSleepModalComponent } from '../record-sleep-modal/record-sleep-modal.component';
@@ -15,14 +17,35 @@ import { RecordSleepModalComponent } from '../record-sleep-modal/record-sleep-mo
   templateUrl: 'overnight.page.html',
   styleUrls: ['overnight.page.scss'],
   imports: [DatePipe, IonHeader, IonToolbar, IonTitle, IonContent, IonButton, IonIcon,
-            IonList, IonItem, IonLabel, IonFab, IonFabButton],
+          IonList, IonItem, IonLabel, IonFab, IonFabButton,
+          IonItemSliding, IonItemOptions, IonItemOption],
 })
 export class OvernightPage implements OnInit, OnDestroy {
   private now = Date.now();
   private interval?: any;
 
-  constructor(public sleep: SleepService, private modalCtrl: ModalController) {
-    addIcons({ play, pause, add });
+  constructor(
+    public sleep: SleepService,
+    private modalCtrl: ModalController,
+    private alertCtrl: AlertController
+  ) {
+    addIcons({ play, pause, add, trashOutline, createOutline });
+  }
+
+  async confirmDelete(log: OvernightSleepData, slider: IonItemSliding) {
+    const alert = await this.alertCtrl.create({
+      header: 'Delete Overnight Log?',
+      message: 'This action will permanently delete this log from your device.',
+      buttons: [
+        { text: 'Cancel', role: 'cancel', handler: () => slider.close() },
+        {
+          text: 'Delete',
+          role: 'destructive',
+          handler: () => this.sleep.deleteOvernightData(log),
+        },
+      ],
+    });
+    await alert.present();
   }
 
   ngOnInit() {
