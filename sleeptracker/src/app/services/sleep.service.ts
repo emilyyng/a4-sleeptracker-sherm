@@ -135,4 +135,20 @@ export class SleepService {
 		data.sleepEnd = end;
 		await this.save();
 	}
+
+	public async deleteSleepinessData(data: StanfordSleepinessData) {
+		await this.ready;
+		const all = SleepService.AllSleepData.indexOf(data);
+		if (all !== -1) SleepService.AllSleepData.splice(all, 1);
+		const sleepiness = SleepService.AllSleepinessData.indexOf(data);
+		if (sleepiness !== -1) SleepService.AllSleepinessData.splice(sleepiness, 1);
+		await this.save();
+	}
+
+	public async updateSleepinessData(data: StanfordSleepinessData, value: number, loggedAt: Date) {
+		await this.ready;
+		data.loggedValue = value;
+		data.loggedAt = loggedAt;
+		await this.save();
+	}
 }

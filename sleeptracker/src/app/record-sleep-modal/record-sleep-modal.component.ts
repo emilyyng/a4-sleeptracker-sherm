@@ -83,7 +83,7 @@ export class RecordSleepModalComponent implements OnInit {
       message: "This entry hasn't been saved. Your entry will be lost.",
       buttons: [
         { text: 'Cancel', role: 'cancel' },
-        { text: 'Delete', role: 'destructive', handler: () => this.modalCtrl.dismiss(null, 'discarded') },
+        { text: 'Delete', role: 'destructive', handler: () => {this.modalCtrl.dismiss(null, 'discarded');}, },
       ],
     });
     await alert.present();
