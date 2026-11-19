@@ -18,14 +18,42 @@
     <img src="assets/sleepiness_scale/Asleep.svg" alt="Sleeping cat" />
   </div>
 
-  <div class="row">
-    <span class="row-label">Start</span>
-    <ion-datetime-button datetime="start-dt"></ion-datetime-button>
-  </div>
-  <div class="row">
-    <span class="row-label">End</span>
-    <ion-datetime-button datetime="end-dt"></ion-datetime-button>
-  </div>
+  @for (row of rows; track row.key) {
+    <div class="row">
+      <span class="row-label">{{ row.label }}</span>
+      <div class="pills">
+        <button type="button" class="pill" [class.active]="isOpen(row.key, 'date')"
+                (click)="toggle(row.key, 'date')">
+          {{ value(row.key) | date: 'MMM dd, y' }}
+        </button>
+        <button type="button" class="pill" [class.active]="isOpen(row.key, 'time')"
+                (click)="toggle(row.key, 'time')">
+          {{ value(row.key) | date: 'hh:mm a' }}
+        </button>
+      </div>
+    </div>
+
+    @if (isOpen(row.key, 'date')) {
+      <div class="picker">
+        <ion-datetime
+          presentation="date"
+          [preferWheel]="true"
+          [value]="value(row.key)"
+          (ionChange)="onPick(row.key, 'date', $any($event.detail.value))"
+        ></ion-datetime>
+      </div>
+    }
+    @if (isOpen(row.key, 'time')) {
+      <div class="picker">
+        <ion-datetime
+          presentation="time"
+          [preferWheel]="true"
+          [value]="value(row.key)"
+          (ionChange)="onPick(row.key, 'time', $any($event.detail.value))"
+        ></ion-datetime>
+      </div>
+    }
+  }
 
   <div class="save-wrap">
     <ion-button class="save-btn" shape="round" (click)="save()">Save</ion-button>
