@@ -71,6 +71,8 @@ export class SleepinessPage {
       handle: true,
     });
     await modal.present();
+    const { role } = await modal.onDidDismiss();
+    if (role === 'saved') await this.showSavedAlert();
     console.log('modal presented');
   } catch (e) {
     console.error('modal failed', e);
@@ -87,5 +89,18 @@ export class SleepinessPage {
       handle: true,
     });
     await modal.present();
+    const { role } = await modal.onDidDismiss();
+    if (role === 'saved') await this.showSavedAlert();
   }
+
+  private async showSavedAlert() {
+      const alert = await this.alertCtrl.create({
+        header: 'Entry Recorded',
+        buttons: [],
+        cssClass: 'saved-alert',
+      });
+      await alert.present();
+      setTimeout(() => alert.dismiss(), 800); 
+    }
+  
 }

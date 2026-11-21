@@ -4,7 +4,7 @@ import { RouterLink } from '@angular/router';
 import {
   IonContent, IonCard, IonCardHeader, IonCardTitle, IonCardSubtitle, IonCardContent,
   IonButton, IonIcon, IonList, IonItem, IonLabel,
-  ModalController,
+  ModalController, AlertController,
 } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
 import { moon, bed } from 'ionicons/icons';
@@ -24,7 +24,11 @@ export class HomePage implements OnInit, OnDestroy {
   now = new Date();
   private interval?: any;
 
-  constructor(public sleepService: SleepService, private modalCtrl: ModalController) {
+  constructor(
+    public sleepService: SleepService,
+    private modalCtrl: ModalController,
+    private alertCtrl: AlertController
+  ) {
     addIcons({ moon, bed });
   }
 
@@ -82,23 +86,34 @@ export class HomePage implements OnInit, OnDestroy {
     return `assets/sleepiness_scale/${file}.svg`;
   }
 
-  async recordSleep() {
+  private async openRecordModal(component: any) {
     const modal = await this.modalCtrl.create({
-      component: RecordSleepModalComponent,
+      component,
       breakpoints: [0, 1],
       initialBreakpoint: 1,
       handle: true,
     });
     await modal.present();
+
+    const { role } = await modal.onDidDismiss();
+    if (role === 'saved') await this.showSavedAlert();   // not shown for Cancel or discard
   }
 
-  async recordSleepiness() {
-    const modal = await this.modalCtrl.create({
-      component: RecordSleepinessModalComponent,
-      breakpoints: [0, 1],
-      initialBreakpoint: 1,
-      handle: true,
+  recordSleep() {
+    return this.openRecordModal(RecordSleepModalComponent);
+  }
+
+  recordSleepiness() {
+    return this.openRecordModal(RecordSleepinessModalComponent);
+  }
+
+  private async showSavedAlert() {
+    const alert = await this.alertCtrl.create({
+      header: 'Entry Recorded',
+      buttons: [],
+      cssClass: 'saved-alert',
     });
-    await modal.present();
+    await alert.present();
+    setTimeout(() => alert.dismiss(), 800); 
   }
 }
