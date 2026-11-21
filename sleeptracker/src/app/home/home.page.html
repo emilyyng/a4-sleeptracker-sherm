@@ -1,8 +1,12 @@
-<ion-toolbar>
-    <ion-title class="page-title">Welcome back, Shart</ion-title>
-</ion-toolbar>
-
 <ion-content>
+  <section class="greeting">
+    <div class="greeting-text">
+      <h1 class="welcome">Welcome back, Shart</h1>
+      <p class="now">{{ now | date: 'EEEE, MMMM d' }} • {{ now | date: 'h:mm a' }}</p>
+    </div>
+    <img class="cat-img greeting-cat" src="assets/sleepiness_scale/2-3.svg" alt="" />
+  </section>
+
   <h2 class="section-label">Record</h2>
   
   <h2 class="section-label">Logs</h2>

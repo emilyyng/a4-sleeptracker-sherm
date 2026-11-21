@@ -36,21 +36,33 @@
 /* @import "@ionic/angular/css/palettes/dark.class.css"; */
 @import '@ionic/angular/css/palettes/dark.system.css';
 
+@font-face {
+    font-family: 'Recoleta';
+    src: url('/assets/recoleta.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
 .page-title {
+    font-family: 'Recoleta', serif;
     font-size: var(--ion-title-size);
     color: var(--app-purple);
     text-align: left;
     padding-inline: 0;
-    padding-left: 15px;
-    font-weight: 700;
+    padding-left: 16px;
+    font-weight: normal;
+    -webkit-text-stroke: 1px currentColor;
 }
 
 .modal-title {
+    font-family: 'Recoleta', serif;
     font-size: var(--ion-title-size);
     color: var(--app-purple);
     text-align: left;
     padding-inline: 0;
-    font-weight: 700;
+    font-weight: normal;
+    -webkit-text-stroke: 1px currentColor;
 }
 
 .section-label {

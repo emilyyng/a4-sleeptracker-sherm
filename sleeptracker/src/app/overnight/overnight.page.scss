@@ -3,10 +3,12 @@
     padding: 40px 0 24px;
 }
 .timer-display {
-    font-family: 'Fraunces', serif;
-    font-size: 72px;
+    font-family: 'Recoleta', serif;
+    font-size: 60px;
     color: var(--app-purple);
     line-height: 1;
+    font-weight: normal;
+    -webkit-text-stroke: 1px currentColor;
 }
 .timer-btn {
     --background: var(--app-blue-light);
