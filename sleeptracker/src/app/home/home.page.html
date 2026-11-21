@@ -1,14 +1,71 @@
 <ion-content>
   <section class="greeting">
     <div class="greeting-text">
-      <h1 class="welcome">Welcome back, Shart</h1>
+      <h1 class="welcome">Welcome back, Sharty Pants</h1>
       <p class="now">{{ now | date: 'EEEE, MMMM d' }} • {{ now | date: 'h:mm a' }}</p>
     </div>
     <img class="cat-img greeting-cat" src="assets/sleepiness_scale/2-3.svg" alt="" />
   </section>
 
+  <ion-card class="chart-card">
+    <ion-card-header>
+      <ion-card-title>Overnight Sleep</ion-card-title>
+      <div class="chart-heading">
+        <ion-card-subtitle>Daily Average</ion-card-subtitle>
+        <ion-card-subtitle>Last 7 days</ion-card-subtitle>
+      </div>
+    </ion-card-header>
+    <ion-card-content>
+      <!-- TODO: graph goes here -->
+      <div class="chart-placeholder"></div>
+    </ion-card-content>
+  </ion-card>
+
+  <div class="dots">
+    <span class="dot active"></span>
+    <span class="dot"></span>
+  </div>
+
+  <div class="stats">
+    <ion-card class="stat-card">
+      <ion-card-content>
+        <p class="stat-label">Avg time asleep</p>
+        <p class="stat-value">{{ avgSleep }}</p>
+      </ion-card-content>
+    </ion-card>
+
+    <ion-card class="stat-card">
+      <ion-card-content>
+        <p class="stat-label">Avg sleepiness</p>
+        <div class="stat-row">
+          <p class="stat-value">Lv. {{ avgSleepiness }}</p>
+          <img class="cat-img stat-cat" [src]="avgCat" alt="" />
+        </div>
+      </ion-card-content>
+    </ion-card>
+  </div>
+  
   <h2 class="section-label">Record</h2>
+  <div class="record-buttons">
+    <ion-button class="record-btn" (click)="recordSleep()">
+      <ion-icon src="assets/icon/overnight.svg"></ion-icon>
+      Record Sleep
+    </ion-button>
+    <ion-button class="record-btn" (click)="recordSleepiness()">
+      <ion-icon src="assets/icon/sleepiness.svg"></ion-icon>
+      Record Sleepiness
+    </ion-button>
+  </div>
   
   <h2 class="section-label">Logs</h2>
+  <ion-list lines="none" class="log-links">
+    <ion-item [button]="true" [detail]="true" routerLink="/tabs/overnight">
+      <ion-label>Overnight Sleep</ion-label>
+    </ion-item>
+    <div class="log-divider"></div>
+    <ion-item [button]="true" [detail]="true" routerLink="/tabs/sleepiness">
+      <ion-label>Sleepiness</ion-label>
+    </ion-item>
+  </ion-list>
  
 </ion-content>
