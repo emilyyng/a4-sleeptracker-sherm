@@ -69,3 +69,52 @@ ion-range {
     --border-radius: 10px;
     text-transform: none;
 }
+
+.row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 16px;
+}
+
+.row-label { 
+    color: var(--app-green); 
+    font-size: 14px; 
+    font-weight: 500; 
+}
+
+.pills { 
+    display: flex; 
+    gap: 8px; 
+}
+
+.pill {
+    background: var(--app-purple-light);
+    color: var(--ion-text-color);
+    border: none;
+    border-radius: 6px;
+    padding: 6px 10px;
+    font-size: 14px;
+    font-variant-numeric: tabular-nums;
+
+    &.active {
+        color: var(--app-purple);
+    }
+}
+
+.picker {
+  border-top: 1px solid #e5e5e5;
+  border-bottom: 1px solid #e5e5e5;
+  background: #fafafa;
+  display: flex;
+  justify-content: center;
+  padding: 4px 16px;
+}
+
+ion-datetime {
+  --background: transparent;
+  --wheel-highlight-background: #efefef;
+  --wheel-fade-background-rgb: 250, 250, 250;
+  width: 100%;
+  max-width: 320px;
+}

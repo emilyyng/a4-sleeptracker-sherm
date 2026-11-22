@@ -37,6 +37,39 @@
     </ion-range>
   </div>
 
+  <div class="row">
+    <span class="row-label">Logged</span>
+    <div class="pills">
+      <button type="button" class="pill" [class.active]="open === 'date'" (click)="toggle('date')">
+        {{ loggedAt | date: 'MMM dd, y' }}
+      </button>
+      <button type="button" class="pill" [class.active]="open === 'time'" (click)="toggle('time')">
+        {{ loggedAt | date: 'hh:mm a' }}
+      </button>
+    </div>
+  </div>
+
+  @if (open === 'date') {
+    <div class="picker">
+      <ion-datetime
+        presentation="date"
+        [preferWheel]="true"
+        [value]="loggedAt"
+        (ionChange)="onPick('date', $any($event.detail.value))"
+      ></ion-datetime>
+    </div>
+  }
+  @if (open === 'time') {
+    <div class="picker">
+      <ion-datetime
+        presentation="time"
+        [preferWheel]="true"
+        [value]="loggedAt"
+        (ionChange)="onPick('time', $any($event.detail.value))"
+      ></ion-datetime>
+    </div>
+  }
+
   <div class="save-wrap">
     <ion-button class="save-btn" shape="round" (click)="save()">Save</ion-button>
   </div>
