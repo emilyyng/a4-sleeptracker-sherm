@@ -84,19 +84,26 @@ export class OvernightPage implements OnInit, OnDestroy {
   }
 
   toggleTimer() {
-    this.timerRunning ? this.sleep.stopTimer() : this.sleep.startTimer();
+    if (this.timerRunning) {
+      this.openRecordModal({
+        initialStart: this.sleep.timerStart,
+        initialEnd: new Date(),
+        fromTimer: true,
+      });
+    } else {
+      this.sleep.startTimer();
+    }
   }
 
-  async openRecordModal() {
+  async openRecordModal(props: Record<string, unknown> = {}) {
     const modal = await this.modalCtrl.create({
       component: RecordSleepModalComponent,
+      componentProps: props,
       breakpoints: [0, 1],
       initialBreakpoint: 1,
       handle: true,
     });
     await modal.present();
-    const { role } = await modal.onDidDismiss();
-    if (role === 'saved') await this.showSavedAlert();
   }
 
   async openEditModal(log: OvernightSleepData, slider: IonItemSliding) {

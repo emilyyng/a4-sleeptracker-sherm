@@ -25,6 +25,9 @@ type Mode = 'date' | 'time';
 })
 export class RecordSleepModalComponent implements OnInit {
   @Input() editing?: OvernightSleepData;
+  @Input() initialStart?: Date | null;
+  @Input() initialEnd?: Date;
+  @Input() fromTimer = false;
   start = toLocalISO(new Date(Date.now() - 8 * 3600000)); // default: 8 hrs ago
   end = toLocalISO(new Date());
   lastRecorded?: Date;
@@ -43,6 +46,9 @@ export class RecordSleepModalComponent implements OnInit {
     if (this.editing) {
       this.start = toLocalISO(this.editing.sleepStart);
       this.end = toLocalISO(this.editing.sleepEnd);
+    } else if (this.initialStart && this.initialEnd) {
+      this.start = toLocalISO(this.initialStart);
+      this.end = toLocalISO(this.initialEnd);
     }
     await this.sleep.ready;
     const logs = SleepService.AllOvernightData;
@@ -68,6 +74,7 @@ export class RecordSleepModalComponent implements OnInit {
       await this.sleep.updateOvernightData(this.editing, start, end);
     } else {
       await this.sleep.logOvernightData(new OvernightSleepData(start, end));
+      if (this.fromTimer) await this.sleep.clearTimer();
     }
     this.modalCtrl.dismiss(null, 'saved');
   }
@@ -75,6 +82,26 @@ export class RecordSleepModalComponent implements OnInit {
   async cancel() {
     if (this.editing) {
       this.modalCtrl.dismiss(null, 'cancelled');
+      return;
+    }
+
+    if (this.fromTimer) {
+      const alert = await this.alertCtrl.create({
+        header: 'Discard Sleep Timer?',
+        message: 'The timer will stop and this night will not be logged.',
+        buttons: [
+          { text: 'Keep Editing', role: 'cancel' },
+          {
+            text: 'Discard',
+            role: 'destructive',
+            handler: async () => {
+              await this.sleep.clearTimer();
+              this.modalCtrl.dismiss(null, 'discarded');
+            },
+          },
+        ],
+      });
+      await alert.present();
       return;
     }
 

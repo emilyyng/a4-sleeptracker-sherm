@@ -111,13 +111,19 @@ export class SleepService {
 		await this.storage.set(TIMER_KEY, this.timerStart.toISOString());
 	}
 
-	public async stopTimer() {
+	// public async stopTimer() {
+	// 	await this.ready;
+	// 	if (!this.timerStart) return;
+	// 	const start = this.timerStart;
+	// 	this.timerStart = null;
+	// 	await this.storage.remove(TIMER_KEY);
+	// 	await this.logOvernightData(new OvernightSleepData(start, new Date()));
+	// }
+
+	public async clearTimer() {
 		await this.ready;
-		if (!this.timerStart) return;
-		const start = this.timerStart;
 		this.timerStart = null;
 		await this.storage.remove(TIMER_KEY);
-		await this.logOvernightData(new OvernightSleepData(start, new Date()));
 	}
 
 	public async deleteOvernightData(data: OvernightSleepData) {
