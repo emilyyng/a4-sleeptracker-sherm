@@ -11,6 +11,7 @@ import { moon, bed } from 'ionicons/icons';
 import { SleepService } from '../services/sleep.service';
 import { RecordSleepModalComponent } from '../record-sleep-modal/record-sleep-modal.component';
 import { RecordSleepinessModalComponent } from '../record-sleepiness-modal/record-sleepiness-modal.component';
+import { guardDismiss } from '../shared/confirm-discard';
 
 interface ChartBar { label: string; value: number | null; isToday: boolean; }
 
@@ -103,6 +104,7 @@ export class HomePage implements OnInit, OnDestroy {
       breakpoints: [0, 1],
       initialBreakpoint: 1,
       handle: true,
+      canDismiss: guardDismiss(this.alertCtrl),
     });
     await modal.present();
 

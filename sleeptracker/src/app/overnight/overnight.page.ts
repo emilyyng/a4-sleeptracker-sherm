@@ -11,6 +11,7 @@ import { play, pause, add, trashOutline, createOutline } from 'ionicons/icons';
 import { SleepService } from '../services/sleep.service';
 import { OvernightSleepData } from '../data/overnight-sleep-data';
 import { RecordSleepModalComponent } from '../record-sleep-modal/record-sleep-modal.component';
+import { guardDismiss } from '../shared/confirm-discard';
 
 @Component({
   selector: 'app-overnight',
@@ -102,6 +103,7 @@ export class OvernightPage implements OnInit, OnDestroy {
       breakpoints: [0, 1],
       initialBreakpoint: 1,
       handle: true,
+      canDismiss: props['fromTimer'] ? true : guardDismiss(this.alertCtrl),
     });
     await modal.present();
   }

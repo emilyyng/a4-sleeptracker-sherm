@@ -12,6 +12,7 @@ import { add, trashOutline, createOutline } from 'ionicons/icons';
 import { SleepService } from '../services/sleep.service';
 import { StanfordSleepinessData } from '../data/stanford-sleepiness-data';
 import { RecordSleepinessModalComponent } from '../record-sleepiness-modal/record-sleepiness-modal.component';
+import { guardDismiss } from '../shared/confirm-discard';
 
 @Component({
   selector: 'app-sleepiness',
@@ -69,6 +70,7 @@ export class SleepinessPage {
       breakpoints: [0, 1],
       initialBreakpoint: 1,
       handle: true,
+      canDismiss: guardDismiss(this.alertCtrl),
     });
     await modal.present();
     const { role } = await modal.onDidDismiss();

@@ -47,6 +47,20 @@ export class RecordSleepinessModalComponent implements OnInit {
     }
   }
 
+  private async confirmDiscard(): Promise<boolean> {
+    const alert = await this.alertCtrl.create({
+      header: 'Discard Entry?',
+      message: "This entry hasn't been saved. Your entry will be lost.",
+      buttons: [
+        { text: 'Cancel', role: 'cancel' },
+        { text: 'Delete', role: 'destructive' },
+      ],
+    });
+    await alert.present();
+    const { role } = await alert.onDidDismiss();
+    return role === 'destructive';
+  }
+
   toggle(mode: Mode) {
     this.open = this.open === mode ? null : mode;
   }
@@ -56,7 +70,8 @@ export class RecordSleepinessModalComponent implements OnInit {
     const [pickDate, pickTime] = picked.includes('T') ? picked.split('T') : [picked, picked];
     const date = mode === 'date' ? pickDate : curDate;
     const time = mode === 'time' ? pickTime.slice(0, 8) : curTime;
-    this.loggedAt = `${date}T${time}`;
+    const merged = `${date}T${time}`;
+    if (merged !== this.loggedAt) this.loggedAt = merged;
   }
 
   get description(): string {
@@ -87,14 +102,8 @@ export class RecordSleepinessModalComponent implements OnInit {
       return;
     }
 
-    const alert = await this.alertCtrl.create({
-      header: 'Discard Entry?',
-      message: "This entry hasn't been saved. Your entry will be lost.",
-      buttons: [
-        { text: 'Cancel', role: 'cancel' },
-        { text: 'Delete', role: 'destructive', handler: () => {this.modalCtrl.dismiss(null, 'discarded');}, },
-      ],
-    });
-    await alert.present();
+    if (await this.confirmDiscard()) {
+      this.modalCtrl.dismiss(null, 'discarded');
+    }
   }
 }

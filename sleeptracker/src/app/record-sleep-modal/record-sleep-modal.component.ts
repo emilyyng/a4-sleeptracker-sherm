@@ -43,6 +43,14 @@ export class RecordSleepModalComponent implements OnInit {
   ) {}
 
   async ngOnInit() {
+    const modal = await this.modalCtrl.getTop();
+    if (modal && !this.editing && !this.fromTimer) {
+      modal.canDismiss = async (_data, role) => {
+        if (role !== 'gesture' && role !== 'backdrop') return true;
+        return this.confirmDiscard();
+      };
+    }
+
     if (this.editing) {
       this.start = toLocalISO(this.editing.sleepStart);
       this.end = toLocalISO(this.editing.sleepEnd);
@@ -56,6 +64,20 @@ export class RecordSleepModalComponent implements OnInit {
       this.lastRecorded = logs.reduce((latest, l) =>
         l.sleepEnd > latest ? l.sleepEnd : latest, logs[0].sleepEnd);
     }
+  }
+
+  private async confirmDiscard(): Promise<boolean> {
+    const alert = await this.alertCtrl.create({
+      header: 'Discard Entry?',
+      message: "This entry hasn't been saved. Your entry will be lost.",
+      buttons: [
+        { text: 'Cancel', role: 'cancel' },
+        { text: 'Delete', role: 'destructive' },
+      ],
+    });
+    await alert.present();
+    const { role } = await alert.onDidDismiss();
+    return role === 'destructive';
   }
 
   async save() {
@@ -105,15 +127,9 @@ export class RecordSleepModalComponent implements OnInit {
       return;
     }
 
-    const alert = await this.alertCtrl.create({
-      header: 'Discard Entry?',
-      message: "This entry hasn't been saved. Your entry will be lost.",
-      buttons: [
-        { text: 'Cancel', role: 'cancel' },
-        { text: 'Delete', role: 'destructive', handler: () => {this.modalCtrl.dismiss(null, 'discarded');}, },
-      ],
-    });
-    await alert.present();
+    if (await this.confirmDiscard()) {
+      this.modalCtrl.dismiss(null, 'discarded');
+    }
   }
 
   rows: { key: Key; label: string }[] = [
