@@ -12,6 +12,17 @@ import { SleepService } from '../services/sleep.service';
 import { RecordSleepModalComponent } from '../record-sleep-modal/record-sleep-modal.component';
 import { RecordSleepinessModalComponent } from '../record-sleepiness-modal/record-sleepiness-modal.component';
 
+interface ChartBar { label: string; value: number | null; isToday: boolean; }
+
+interface ChartConfig {
+  title: string;
+  bars: ChartBar[];
+  max: number;
+  ticks: number[];
+  average: number | null;
+  format: (v: number) => string;
+}
+
 @Component({
   selector: 'app-home',
   templateUrl: 'home.page.html',
@@ -115,5 +126,79 @@ export class HomePage implements OnInit, OnDestroy {
     });
     await alert.present();
     setTimeout(() => alert.dismiss(), 800); 
+  }
+
+  activeChart = 0;
+
+  onScroll(e: Event) {
+    const el = e.target as HTMLElement;
+    this.activeChart = Math.round(el.scrollLeft / el.clientWidth);
+  }
+
+  private lastSevenDays(): Date[] {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const days: Date[] = [];
+    for (let i = 6; i >= 0; i--) {
+      const d = new Date(today);
+      d.setDate(today.getDate() - i);
+      days.push(d);
+    }
+    return days;
+  }
+
+  private sameDay(a: Date, b: Date): boolean {
+    return a.toDateString() === b.toDateString();
+  }
+
+  private mean(bars: ChartBar[]): number | null {
+    const vals = bars.filter(b => b.value !== null).map(b => b.value as number);
+    return vals.length ? vals.reduce((a, b) => a + b, 0) / vals.length : null;
+  }
+
+  // hours slept, grouped by the day you woke up
+  private get overnightBars(): ChartBar[] {
+    return this.lastSevenDays().map((day, i) => {
+      const logs = SleepService.AllOvernightData.filter(l => this.sameDay(l.sleepEnd, day));
+      const value = logs.length
+        ? logs.reduce((s, l) => s + (l.sleepEnd.getTime() - l.sleepStart.getTime()), 0) / logs.length / 3600000
+        : null;
+      return { label: day.toLocaleDateString('en-US', { weekday: 'narrow' }), value, isToday: i === 6 };
+    });
+  }
+
+  // average 1-7 rating per day
+  private get sleepinessBars(): ChartBar[] {
+    return this.lastSevenDays().map((day, i) => {
+      const logs = SleepService.AllSleepinessData.filter(l => this.sameDay(l.loggedAt, day));
+      const value = logs.length ? logs.reduce((s, l) => s + l.loggedValue, 0) / logs.length : null;
+      return { label: day.toLocaleDateString('en-US', { weekday: 'narrow' }), value, isToday: i === 6 };
+    });
+  }
+
+  get charts(): ChartConfig[] {
+    const sleep = this.overnightBars;
+    const sleepy = this.sleepinessBars;
+    const tallest = Math.max(0, ...sleep.map(b => b.value ?? 0));
+    const sleepMax = Math.max(8, Math.ceil(tallest / 2) * 2); // grows if someone sleeps 10+ hrs
+
+    return [
+      {
+        title: 'Overnight Sleep',
+        bars: sleep,
+        max: sleepMax,
+        ticks: [0, sleepMax / 2, sleepMax],
+        average: this.mean(sleep),
+        format: v => `${v}h`,
+      },
+      {
+        title: 'Sleepiness',
+        bars: sleepy,
+        max: 7,
+        ticks: [0, 4, 7],
+        average: this.mean(sleepy),
+        format: v => String(v),
+      },
+    ];
   }
 }

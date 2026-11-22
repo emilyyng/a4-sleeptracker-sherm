@@ -7,23 +7,54 @@
     <img class="cat-img greeting-cat" src="assets/sleepiness_scale/2-3.svg" alt="" />
   </section>
 
-  <ion-card class="chart-card">
-    <ion-card-header>
-      <ion-card-title>Overnight Sleep</ion-card-title>
-      <div class="chart-heading">
-        <ion-card-subtitle>Daily Average</ion-card-subtitle>
-        <ion-card-subtitle>Last 7 days</ion-card-subtitle>
-      </div>
-    </ion-card-header>
-    <ion-card-content>
-      <!-- TODO: graph goes here -->
-      <div class="chart-placeholder"></div>
-    </ion-card-content>
-  </ion-card>
+  <div class="chart-scroller" (scroll)="onScroll($event)">
+    @for (chart of charts; track chart.title) {
+      <ion-card class="chart-card">
+        <ion-card-header>
+          <ion-card-title>{{ chart.title }}</ion-card-title>
+          <div class="chart-heading">
+            <ion-card-subtitle>Daily Average</ion-card-subtitle>
+            <ion-card-subtitle>Last 7 days</ion-card-subtitle>
+          </div>
+        </ion-card-header>
+
+        <ion-card-content>
+          <div class="plot">
+            @for (t of chart.ticks; track t) {
+              <div class="grid-line" [style.bottom.%]="(t / chart.max) * 100">
+                <span class="grid-label">{{ chart.format(t) }}</span>
+              </div>
+            }
+
+            <div class="bars">
+              @for (bar of chart.bars; track $index) {
+                <div class="bar-col">
+                  @if (bar.value !== null) {
+                    <div class="bar" [style.height.%]="(bar.value / chart.max) * 100"></div>
+                  }
+                </div>
+              }
+            </div>
+
+            @if (chart.average !== null) {
+              <div class="avg-line" [style.bottom.%]="(chart.average / chart.max) * 100"></div>
+            }
+          </div>
+
+          <div class="x-labels">
+            @for (bar of chart.bars; track $index) {
+              <span [class.today]="bar.isToday">{{ bar.label }}</span>
+            }
+          </div>
+        </ion-card-content>
+      </ion-card>
+    }
+  </div>
 
   <div class="dots">
-    <span class="dot active"></span>
-    <span class="dot"></span>
+    @for (chart of charts; track chart.title; let i = $index) {
+      <span class="dot" [class.active]="i === activeChart"></span>
+    }
   </div>
 
   <div class="stats">
