@@ -105,6 +105,9 @@ ion-content {
 ion-item {
     --background: transparent;   
 }
+ion-item-sliding.item-sliding-active-slide ion-item {
+  --background: color-mix(in srgb, var(--app-blue-light) 27%, var(--ion-background-color));
+}
 
 ion-modal ion-content {
     --background: var(--ion-background-color);   
