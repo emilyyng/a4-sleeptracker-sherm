@@ -9,7 +9,7 @@
   <ion-list lines="full" class="log-list">
     @for (log of logs; track log.id) {
       <ion-item-sliding #slider>
-        <ion-item>
+        <ion-item [button]="true" [detail]="false" (click)="openEditModal(log, slider)">
           <ion-thumbnail slot="start">
             <img class="cat-img" [src]="catFor(log)" [alt]="'Sleepiness level ' + log.loggedValue" />
           </ion-thumbnail>

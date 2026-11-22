@@ -17,7 +17,7 @@
   <ion-list lines="full" class="log-list">
     @for (log of logs; track log) {
       <ion-item-sliding #slider>
-        <ion-item>
+        <ion-item [button]="true" [detail]="false" (click)="openEditModal(log, slider)">
           <ion-label>
             <h3>{{ log.sleepStart | date: 'MMMM d, y' }}</h3>
             <p>{{ log.sleepStart | date: 'h:mm a' }} to {{ log.sleepEnd | date: 'h:mm a' }}</p>
