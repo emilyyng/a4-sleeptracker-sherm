@@ -32,7 +32,7 @@ interface ChartConfig {
             IonCardSubtitle, IonCardContent, IonButton, IonIcon, IonList, IonItem, IonLabel],
 })
 export class HomePage implements OnInit, OnDestroy {
-  userName = 'Sharty Pants';   // change to whatever name you want shown
+  userName = 'Sherm Yam';   // change to whatever name you want shown
   now = new Date();
   private interval?: any;
 
