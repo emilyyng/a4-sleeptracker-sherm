@@ -64,21 +64,21 @@ export class SleepinessPage {
 
   async openRecordModal() {
     console.log('plus clicked');
-  try {
-    const modal = await this.modalCtrl.create({
-      component: RecordSleepinessModalComponent,
-      breakpoints: [0, 1],
-      initialBreakpoint: 1,
-      handle: true,
-      canDismiss: guardDismiss(this.alertCtrl),
-    });
-    await modal.present();
-    const { role } = await modal.onDidDismiss();
-    if (role === 'saved') await this.showSavedAlert();
-    console.log('modal presented');
-  } catch (e) {
-    console.error('modal failed', e);
-  }
+    try {
+      const modal = await this.modalCtrl.create({
+        component: RecordSleepinessModalComponent,
+        breakpoints: [0, 1],
+        initialBreakpoint: 1,
+        handle: true,
+        canDismiss: guardDismiss(this.alertCtrl),
+      });
+      await modal.present();
+      const { role } = await modal.onDidDismiss();
+      if (role === 'saved') await this.showSavedAlert();
+      console.log('modal presented');
+    } catch (e) {
+      console.error('modal failed', e);
+    }
   }
 
   async openEditModal(log: StanfordSleepinessData, slider: IonItemSliding) {

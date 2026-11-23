@@ -106,6 +106,8 @@ export class OvernightPage implements OnInit, OnDestroy {
       canDismiss: props['fromTimer'] ? true : guardDismiss(this.alertCtrl),
     });
     await modal.present();
+    const { role } = await modal.onDidDismiss();
+    if (role === 'saved') await this.showSavedAlert();
   }
 
   async openEditModal(log: OvernightSleepData, slider: IonItemSliding) {
