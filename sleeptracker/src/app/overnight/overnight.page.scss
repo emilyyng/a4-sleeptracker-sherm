@@ -1,0 +1,69 @@
+.timer {
+    text-align: center;
+    padding: 40px 0 24px;
+}
+.timer-display {
+    font-family: 'Recoleta', serif;
+    font-size: 60px;
+    color: var(--app-purple);
+    line-height: 1;
+    font-weight: normal;
+    -webkit-text-stroke: 1px currentColor;
+}
+.timer-btn {
+    --background: var(--app-blue-light);
+    --color: var(--app-green);
+    --border-radius: 8px;
+    --box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    margin-top: 20px;
+    font-size: 14px;
+    text-transform: none;
+}
+
+.log-list { 
+    background: transparent; 
+    padding: 0; 
+}
+
+ion-item {
+    --padding-start: 16px;
+    --inner-padding-end: 16px;
+    // --background: var(--ion-background-color);
+    --border-color: #e5e5e5;
+
+    h3 { 
+        font-size: 15px; 
+        font-weight: 500; 
+        margin: 0; 
+    }
+    p  { 
+        font-size: 12px; 
+        color: var(--ion-subtitle-color);
+        margin: 2px 0 0; 
+    }
+}
+
+.duration { 
+    font-size: 15px; 
+    font-weight: 500; 
+}
+
+ion-fab-button {
+    --background: var(--app-purple);
+    --color: #fff;
+    margin: 0 12px 12px 0;
+}
+
+.edit-option {
+    --background: #e6d6f2;
+    --color: var(--app-purple);
+}
+
+.delete-option {
+    --background: #d95f5f;
+    --color: #ffffff;
+}
+
+ion-item-option ion-icon {
+    font-size: 22px;
+}

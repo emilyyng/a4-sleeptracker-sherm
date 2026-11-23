@@ -1,0 +1,82 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <div class="header-stack">
+      <ion-buttons slot="start">
+        <ion-button class="cancel-btn" (click)="cancel()">Cancel</ion-button>
+      </ion-buttons>
+      <h1 class="modal-title">{{ editing ? 'Edit Sleep' : 'Record Sleep' }}</h1>
+      @if (lastRecorded) {
+        <p class="last-recorded">Last Recorded: {{ lastRecorded | date: 'MMMM d, y' }}</p>
+      }
+    </div>
+    
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="cat-area">
+    <img src="assets/sleepiness_scale/Asleep.svg" alt="Sleeping cat" />
+  </div>
+
+  @for (row of rows; track row.key) {
+    <div class="row">
+      <span class="row-label">{{ row.label }}</span>
+      <div class="pills">
+        <button type="button" class="pill" [class.active]="isOpen(row.key, 'date')"
+                (click)="toggle(row.key, 'date')">
+          {{ value(row.key) | date: 'MMM dd, y' }}
+        </button>
+        <button type="button" class="pill" [class.active]="isOpen(row.key, 'time')"
+                (click)="toggle(row.key, 'time')">
+          {{ value(row.key) | date: 'hh:mm a' }}
+        </button>
+      </div>
+    </div>
+
+    @if (isOpen(row.key, 'date')) {
+      <div class="picker">
+        <ion-datetime
+          presentation="date"
+          [preferWheel]="true"
+          [value]="value(row.key)"
+          (ionChange)="onPick(row.key, 'date', $any($event.detail.value))"
+        ></ion-datetime>
+      </div>
+    }
+    @if (isOpen(row.key, 'time')) {
+      <div class="picker">
+        <ion-datetime
+          presentation="time"
+          [preferWheel]="true"
+          [value]="value(row.key)"
+          (ionChange)="onPick(row.key, 'time', $any($event.detail.value))"
+        ></ion-datetime>
+      </div>
+    }
+  }
+
+  <div class="save-wrap">
+    <ion-button class="save-btn" shape="round" (click)="save()">Save</ion-button>
+  </div>
+
+  <ion-modal [keepContentsMounted]="true">
+    <ng-template>
+      <ion-datetime
+        id="start-dt"
+        [value]="start"
+        [formatOptions]="formatOptions"
+        (ionChange)="start = $any($event.detail.value)"
+      ></ion-datetime>
+    </ng-template>
+  </ion-modal>
+  <ion-modal [keepContentsMounted]="true">
+    <ng-template>
+      <ion-datetime
+        id="end-dt"
+        [value]="end"
+        [formatOptions]="formatOptions"
+        (ionChange)="end = $any($event.detail.value)"
+      ></ion-datetime>
+    </ng-template>
+  </ion-modal>
+</ion-content>

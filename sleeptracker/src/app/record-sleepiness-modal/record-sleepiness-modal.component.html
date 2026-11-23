@@ -1,0 +1,76 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <div class="header-stack">
+      <ion-buttons slot="start">
+        <ion-button class="cancel-btn" (click)="cancel()">Cancel</ion-button>
+      </ion-buttons>
+      <h1 class="modal-title">{{ editing ? 'Edit Sleepiness' : 'Record Sleepiness' }}</h1>
+      @if (lastRecorded) {
+        <p class="last-recorded">Last Recorded: {{ lastRecorded | date: "MMMM d, y 'at' h:mm a" }}</p>
+      }
+    </div>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="cat-area">
+    <img class="cat-img" [src]="catFor(level)" [alt]="'Sleepiness level ' + level" />
+  </div>
+
+  <div class="level-text">
+    <p class="level-label">Sleepiness Level: {{ level }}</p>
+    <p class="level-description">{{ description }}</p>
+  </div>
+
+  <div class="range-wrap">
+    <ion-range
+      [min]="1"
+      [max]="7"
+      [step]="1"
+      [snaps]="true"
+      [ticks]="true"
+      [value]="level"
+      (ionInput)="level = $any($event.detail.value)"
+    >
+      <span slot="start" class="range-end">1</span>
+      <span slot="end" class="range-end">7</span>
+    </ion-range>
+  </div>
+
+  <div class="row">
+    <span class="row-label">Logged</span>
+    <div class="pills">
+      <button type="button" class="pill" [class.active]="open === 'date'" (click)="toggle('date')">
+        {{ loggedAt | date: 'MMM dd, y' }}
+      </button>
+      <button type="button" class="pill" [class.active]="open === 'time'" (click)="toggle('time')">
+        {{ loggedAt | date: 'hh:mm a' }}
+      </button>
+    </div>
+  </div>
+
+  @if (open === 'date') {
+    <div class="picker">
+      <ion-datetime
+        presentation="date"
+        [preferWheel]="true"
+        [value]="loggedAt"
+        (ionChange)="onPick('date', $any($event.detail.value))"
+      ></ion-datetime>
+    </div>
+  }
+  @if (open === 'time') {
+    <div class="picker">
+      <ion-datetime
+        presentation="time"
+        [preferWheel]="true"
+        [value]="loggedAt"
+        (ionChange)="onPick('time', $any($event.detail.value))"
+      ></ion-datetime>
+    </div>
+  }
+
+  <div class="save-wrap">
+    <ion-button class="save-btn" shape="round" (click)="save()">Save</ion-button>
+  </div>
+</ion-content>

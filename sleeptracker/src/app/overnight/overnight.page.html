@@ -1,0 +1,45 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title class="page-title">Overnight Sleep</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <section class="timer">
+    <div class="timer-display">{{ display }}</div>
+    <ion-button class="timer-btn" fill="clear" (click)="toggleTimer()">
+      <ion-icon slot="start" [name]="timerRunning ? 'pause' : 'play'"></ion-icon>
+      {{ timerRunning ? 'Stop Timer' : 'Start Timer' }}
+    </ion-button>
+  </section>
+
+  <h2 class="section-label">Recent Logs</h2>
+  <ion-list lines="full" class="log-list">
+    @for (log of logs; track log) {
+      <ion-item-sliding #slider>
+        <ion-item [button]="true" [detail]="false" (click)="openEditModal(log, slider)">
+          <ion-label>
+            <h3>{{ log.sleepStart | date: 'MMMM d, y' }}</h3>
+            <p>{{ log.sleepStart | date: 'h:mm a' }} to {{ log.sleepEnd | date: 'h:mm a' }}</p>
+          </ion-label>
+          <span slot="end" class="duration">{{ duration(log) }}</span>
+        </ion-item>
+
+        <ion-item-options side="end">
+          <ion-item-option class="edit-option" (click)="openEditModal(log, slider)">
+            <ion-icon slot="icon-only" name="create-outline"></ion-icon>
+          </ion-item-option>
+          <ion-item-option class="delete-option" (click)="confirmDelete(log, slider)">
+            <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
+          </ion-item-option>
+        </ion-item-options>
+      </ion-item-sliding>
+    }
+</ion-list>
+
+  <ion-fab slot="fixed" vertical="bottom" horizontal="end">
+    <ion-fab-button (click)="openRecordModal()">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+</ion-content>

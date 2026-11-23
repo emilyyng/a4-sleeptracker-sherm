@@ -35,3 +35,102 @@
 /* @import "@ionic/angular/css/palettes/dark.always.css"; */
 /* @import "@ionic/angular/css/palettes/dark.class.css"; */
 @import '@ionic/angular/css/palettes/dark.system.css';
+
+@font-face {
+    font-family: 'Recoleta';
+    src: url('/assets/recoleta.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+.page-title {
+    font-family: 'Recoleta', serif;
+    font-size: var(--ion-title-size);
+    color: var(--app-purple);
+    text-align: left;
+    padding-inline: 0;
+    padding-left: 16px;
+    font-weight: normal;
+    -webkit-text-stroke: 1px currentColor;
+}
+
+.modal-title {
+    font-family: 'Recoleta', serif;
+    font-size: var(--ion-title-size);
+    color: var(--app-purple);
+    text-align: left;
+    padding-inline: 0;
+    font-weight: normal;
+    -webkit-text-stroke: 1px currentColor;
+}
+
+.section-label {
+    color: var(--app-green);
+    font-size: 15px;
+    font-weight: 600;
+    margin: 24px 16px 4px;
+}
+
+ion-header {
+    border-bottom: 1px solid #E5E5E5;   
+    box-shadow: none;
+
+    &::after { display: none; }          
+}
+
+ion-toolbar {
+    --background: var(--ion-background-color);   
+    --min-height: 120px;                          
+    --padding-start: 0;
+    --border-width: 0;
+    padding-bottom: 10px; 
+
+    &::part(container) { align-items: flex-end; } 
+}
+
+
+ion-title.page-title {
+    align-items: flex-end;      
+}
+
+ion-content {
+    --background: linear-gradient(
+        180deg,
+        var(--ion-background-color) 0%,
+        color-mix(in srgb, var(--app-blue-light) 54%, transparent) 100%
+    );
+}
+
+ion-item {
+    --background: transparent;   
+}
+ion-item-sliding.item-sliding-active-slide ion-item {
+  --background: color-mix(in srgb, var(--app-blue-light) 27%, var(--ion-background-color));
+}
+
+ion-modal ion-content {
+    --background: var(--ion-background-color);   
+}
+
+ion-tab-bar {
+    --background: var(--ion-background-color);   
+    --color: var(--app-purple-light);
+    --color-selected: var(--app-purple);
+    --border: 0;                                  
+    border-top: 1px solid #E5E5E5;
+    height: 83px; 
+}
+ion-tab-button ion-icon { font-size: 26px; padding-bottom: 15px;}
+ion-tab-button ion-label { display: none; }
+
+
+.cat-img {
+    filter: drop-shadow(0 1px 2px rgba(12, 12, 13, 0.15));
+}
+
+.saved-alert {
+    --width: fit-content;
+    --min-width: 0;
+    
+}

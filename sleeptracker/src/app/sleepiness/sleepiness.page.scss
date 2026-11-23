@@ -1,0 +1,54 @@
+.log-list {
+    background: transparent;
+    padding: 0;
+}
+
+ion-item {
+    --padding-start: 16px;
+    --inner-padding-end: 16px;
+    --border-color: #e5e5e5;
+    // --background: var(--ion-background-color);
+
+    h3 {
+        font-size: 15px;
+        font-weight: 500;
+        margin: 0;
+    }
+    p {
+        font-size: 12px;
+        color: var(--ion-subtitle-color);
+        margin: 2px 0 0;
+    }
+}
+
+ion-thumbnail {
+    --size: 60px;
+    --border-radius: 0;
+    margin-inline-end: 10px;
+}
+
+.level {
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--ion-text-color);
+}
+
+ion-fab-button {
+    --background: var(--app-purple);
+    --color: #fff;
+    margin: 0 12px 12px 0;
+}
+
+.edit-option {
+    --background: #e6d6f2;
+    --color: var(--app-purple);
+}
+
+.delete-option {
+    --background: #d95f5f;
+    --color: #ffffff;
+}
+
+ion-item-option ion-icon {
+    font-size: 22px;
+}
